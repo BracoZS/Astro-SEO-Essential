@@ -1,0 +1,73 @@
+---
+import type { SEOProps, OpenGraph, Twitter } from "../types/SEO";
+
+// component props
+const {
+  name,
+  title,
+  description,
+  image,
+  locale = "en",
+  canonicalURL = new URL(Astro.url.pathname, Astro.site), // 'site' from /astro.config.mjs
+  og,
+  twitter,
+} = Astro.props as SEOProps;
+
+// from props
+const ogData: OpenGraph = {
+  name,
+  title,
+  description,
+  canonicalURL,
+  image,
+  locale,
+  type: "website",
+  ...(og ?? {}),
+} satisfies OpenGraph;
+
+// from props
+const twitterData: Twitter = {
+  name,
+  title,
+  description,
+  canonicalURL,
+  image,
+  locale,
+  card: "summary_large_image",
+  ...(twitter ?? {}),
+};
+
+// (compilation time)
+// returns string from image, or ImageMetadata.src if the image is preprocessed with Astro
+function normalizeImageUrl(image: string | ImageMetadata): string {
+  return typeof image === "string" ? image : image.src;
+}
+---
+
+<!-- Prevent search indexing for theme demo page --><!-- REMOVE FOR YOUR SITE -->
+<!-- <meta name="robots" content="noindex" /> -->
+ 
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content={ogData.title} />
+<meta property="og:type" content={ogData.type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:locale" content={ogData.locale} />
+<meta property="og:description" content={ogData.description} />
+<meta property="og:site_name" content={ogData.name} />
+{ogData.image && <meta property="og:image" content={normalizeImageUrl(ogData.image.src)} />}
+{ogData.image && <meta property="og:image:alt" content={ogData.image.alt} />}
+
+<!-- (X) Twitter -->
+<meta name="twitter:card" content={twitterData.card} />
+<meta name="twitter:site" content={twitterData.handle} /> {/* @User */}
+<meta name="twitter:title" content={twitterData.title} />
+<meta name="twitter:description" content={twitterData.description} />
+{twitterData.image && <meta name="twitter:image" content={normalizeImageUrl(twitterData.image.src)} />}
+{twitterData.image && <meta name="twitter:image:alt" content={twitterData.image.alt} />}
