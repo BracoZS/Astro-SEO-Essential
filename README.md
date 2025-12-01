@@ -1,4 +1,4 @@
-# Astro SEO Basic
+# Astro SEO Essential
 
 A simple Astro component to handle basic SEO meta tags in your pages.
 
@@ -21,4 +21,5 @@ You import the SEO component into your Astro page or layout and pass the SEO pro
 
 - Discord
 <img width="566" height="490" alt="image" src="https://github.com/user-attachments/assets/44547903-07e5-4e3d-9497-b6fbc9f39061" />
+
 
