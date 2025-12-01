@@ -74,7 +74,8 @@ Previews generated from static HTML using `og:` and `twitter:` tags rendered by 
   ![X card screenshot](https://github.com/user-attachments/assets/758c2115-2011-4ad7-9103-8f1c5d74b50d)
 
 - **Discord**
-  ![Discord card screenshot](https://github.com/user-attachments/assets/44547903-07e5-4e3d-9497-b6fbc9f39061)
+  ![Discord card screenshot](https://github.com/user-attachments/assets/fc1ea474-d1b5-4815-bd84-1be03cbf758d)
+
 
 > You can use tools like meta tag previewers to verify your tags before deploying.
 
@@ -90,5 +91,6 @@ PRs and suggestions are welcome 🙌
 
 
 ## License
+
 
 MIT ©[BracoZS](https://github.com/BracoZS)
