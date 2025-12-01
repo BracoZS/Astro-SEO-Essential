@@ -3,5 +3,5 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mydomain.com', // 👈 important!
+  site: 'https://demo-domain.com', // 👈 important!
 });
