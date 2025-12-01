@@ -74,6 +74,7 @@ Previews generated from static HTML using `og:` and `twitter:` tags rendered by 
   ![X card screenshot](https://github.com/user-attachments/assets/758c2115-2011-4ad7-9103-8f1c5d74b50d)
 
 - **Discord**
+
   ![Discord card screenshot](https://github.com/user-attachments/assets/fc1ea474-d1b5-4815-bd84-1be03cbf758d)
 
 
@@ -94,3 +95,4 @@ PRs and suggestions are welcome 🙌
 
 
 MIT ©[BracoZS](https://github.com/BracoZS)
+
