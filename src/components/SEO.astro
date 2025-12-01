@@ -1,5 +1,44 @@
 ---
-import type { SEOProps, OpenGraph, Twitter } from "../types/SEO";
+import type { ImageMetadata } from "astro";
+
+//Image property for SEO. Can be a string URL or an Astro ImageMetadata object.
+export interface SEOImage {
+  src: string | ImageMetadata;
+  alt: string;
+}
+
+// Base SEO metadata properties.
+export interface SEOMetadata {
+  // The name of the site (e.g., "My Awesome Blog"). 
+  name: string;
+  // The title of the page. 
+  title: string;
+  // The description of the page. 
+  description: string;
+  // The image to be displayed on social media cards. 
+  image?: SEOImage;
+  // The canonical URL of the page. Defaults to the current URL. 
+  canonicalURL?: URL | string;
+  // The locale of the page (e.g., "en", "es"). Defaults to "en". 
+  locale?: string;
+}
+
+export interface OpenGraph extends Partial<SEOMetadata> {
+  // The type of the content (e.g., "website", "article"). Defaults to "website". 
+  type?: string;
+}
+
+export interface Twitter extends Partial<SEOMetadata> {
+  // The Twitter handle of the content creator or site (e.g., "@astrodotbuild"). 
+  handle?: string;
+  // The card type. Defaults to "summary_large_image". 
+  card?: "summary" | "summary_large_image";
+}
+
+export interface Props extends SEOMetadata {
+  og?: OpenGraph;
+  twitter?: Twitter;
+}
 
 // component props
 const {
@@ -8,10 +47,10 @@ const {
   description,
   image,
   locale = "en",
-  canonicalURL = new URL(Astro.url.pathname, Astro.site), // 'site' from /astro.config.mjs
-  og,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin), // 'site' from /astro.config.mjs
+  og: OpenGraph,
   twitter,
-} = Astro.props as SEOProps;
+} = Astro.props;
 
 // from props
 const ogData: OpenGraph = {
@@ -22,7 +61,7 @@ const ogData: OpenGraph = {
   image,
   locale,
   type: "website",
-  ...(og ?? {}),
+  ...(OpenGraph ?? {}),
 } satisfies OpenGraph;
 
 // from props
@@ -38,15 +77,30 @@ const twitterData: Twitter = {
 };
 
 // (compilation time)
-// returns string from image, or ImageMetadata.src if the image is preprocessed with Astro
+// returns string from image or ImageMetadata.src (if the image is preprocessed with Astro)
+/*
+ * Normalizes the image URL to ensure it is absolute.
+ * Social media platforms require absolute URLs (starting with http/https).
+*/
 function normalizeImageUrl(image: string | ImageMetadata): string {
-  return typeof image === "string" ? image : image.src;
+  const src = typeof image === "string" ? image : image.src;
+
+  // If it's already an absolute URL (http:// or https://), return it
+  if (/^https?:\/\//.test(src)) {
+    return src;
+  }
+
+  // If it's a protocol-relative URL (//), add the protocol
+  if (src.startsWith("//")) {
+    return `https:${src}`;
+  }
+
+  // Resolve relative paths against the site URL or current origin
+  const domain = Astro.site || Astro.url.origin;
+  return new URL(src, domain).toString();
 }
 ---
 
-<!-- Prevent search indexing for theme demo page --><!-- REMOVE FOR YOUR SITE -->
-<!-- <meta name="robots" content="noindex" /> -->
- 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
@@ -61,13 +115,14 @@ function normalizeImageUrl(image: string | ImageMetadata): string {
 <meta property="og:locale" content={ogData.locale} />
 <meta property="og:description" content={ogData.description} />
 <meta property="og:site_name" content={ogData.name} />
-{ogData.image && <meta property="og:image" content={normalizeImageUrl(ogData.image.src)} />}
+{ogData.image && ( <meta property="og:image" content={normalizeImageUrl(ogData.image.src)} /> ) }
 {ogData.image && <meta property="og:image:alt" content={ogData.image.alt} />}
 
 <!-- (X) Twitter -->
 <meta name="twitter:card" content={twitterData.card} />
-<meta name="twitter:site" content={twitterData.handle} /> {/* @User */}
+<meta name="twitter:site" content={twitterData.handle} />{/* @Username */}
 <meta name="twitter:title" content={twitterData.title} />
 <meta name="twitter:description" content={twitterData.description} />
-{twitterData.image && <meta name="twitter:image" content={normalizeImageUrl(twitterData.image.src)} />}
+{twitterData.image && ( <meta name="twitter:image" content={normalizeImageUrl(twitterData.image.src)} /> )}
 {twitterData.image && <meta name="twitter:image:alt" content={twitterData.image.alt} />}
+<!-- end SEO metatags -->

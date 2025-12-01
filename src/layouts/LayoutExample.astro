@@ -1,20 +1,20 @@
 ---
-import SEO from "../components/SEO.astro";
+// another example
+import SEO, { type Props as SEOProps } from "../components/SEO.astro";
 
 export interface Props {
   title: string;
-  description?: string;
+  description: string;
 }
 
 const { title, description } = Astro.props;
 
-const seoDemo = {
+const seoDemo: SEOProps = {
   name: "Demo Site",
-  title: "Welcome to Demo Site",
-  description:
-    "Demo Site is a fictional website created to showcase SEO features, layouts, and metadata in a live example.",
+  title: title,
+  description: description,
   image: {
-    src: "https://plchldr.co/i/600x400/df720c/ffffff/png/default/Astro%20%20-%20SEO%20Basic", //Dummy Online Image Generator
+    src: "/demo-img.png", // relative img path 😄
     alt: "Random demo image for Demo Site",
   },
   locale: "en",
