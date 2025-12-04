@@ -48,6 +48,7 @@ const { title, description } = Astro.props;
 
 | Prop | Type | Description |
 |------|------|-------------|
+| `name` | `string` | **Required**. The name of the website. |
 | `title` | `string` | **Required**. The title of the page. |
 | `description` | `string` | **Required**. A short description for search engines and social cards. |
 | `image` | `{ src, alt }` | Optional. The image for social sharing. Supports relative paths! |
