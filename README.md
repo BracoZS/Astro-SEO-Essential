@@ -72,7 +72,8 @@ export default defineConfig({
 Previews generated from static HTML using `og:` and `twitter:` tags rendered by this component.
 
 - **X (Twitter)**  
-  ![X card screenshot](https://github.com/user-attachments/assets/758c2115-2011-4ad7-9103-8f1c5d74b50d)
+  ![X card screenshot](https://github.com/user-attachments/assets/44a7d3bc-1adc-4476-8ff8-7bb7745d6775)
+
 
 - **Discord**
 
@@ -96,4 +97,5 @@ PRs and suggestions are welcome 🙌
 
 
 MIT ©[BracoZS](https://github.com/BracoZS)
+
 
